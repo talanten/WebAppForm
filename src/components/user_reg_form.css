@@ -1,0 +1,33 @@
+.user_reg_form {
+	margin: 10px;
+	padding: 10px;
+	width: 150px;
+	border: "1px solid black";
+	backgroundColor: "black";
+	color: "white"
+	}
+
+.lable {
+	margin: 0px;
+	padding: 5px
+}
+
+.txtBox {
+	margin: 5px;
+	padding: 5px
+}
+
+.submit {
+	margin-top: 10px;
+	text-align: right
+}
+
+.errMsg {
+    margin: 0 3px 10px 3px;
+    padding: 5px 3px 5px 3px;
+    color: #B94A48;
+    background-color: #F2DEDE;
+    border: 2px solid #EED3D7;
+    border-radius: 4px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
