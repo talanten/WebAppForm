@@ -2,26 +2,25 @@ import React from 'react'
 import './user_reg_form.css'
 import Field from './user_reg_form_fields'
 import Register_btn from './user_reg_register_btn'
+import axios from 'axios'
 
 class User_reg_form extends React.Component {
-	state = {
-		firstName: "",
-		firstNameErr: "",
-		lastName: "",
-		email: "",
-		emailErr: "",
-		address: "",
-		phone: "",
-		phoneErr: ""
+	constructor () {
+		super()
+		this.state = {
+			firstName: "",
+			firstNameErr: "",
+			lastName: "",
+			email: "",
+			emailErr: "",
+			address: "",
+			phone: "",
+			phoneErr: ""
+		}
 	}
 
 	onFirstNameBlur = (e) => {
 		this.setState({firstName : e.target.value});
-		if (this.state.firstName.length === 0) {
-			this.setState({firstNameErr: "Please enter the first name."})
-		} else {
-			this.setState({firstNameErr: ""})
-		}
 	}
 	onLastNameBlur = (e) => {
 		this.setState({lastName : e.target.value});
@@ -54,19 +53,37 @@ class User_reg_form extends React.Component {
 			: "Please enter the phone in format +99 999 99999"
 	}
 
+	handleClick = (e) => {
+		e.preventDefault()
+		if (this.state.emailErr || this.state.phoneErr)
+		{
+			return;
+		}
+		this.postMessage()
+	}
+
+	postMessage = async () => {
+		try {
+			let res = await axios.post('http://localhost:8500/webappform/insertUser', this.state)
+			alert(res.data)
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
 	render() {
 		return(
-			<div className="user_reg_form">
+			<form className="user_reg_form" onSubmit={this.handleClick}>
 				<Field lbl_txt="First Name:" type="text" input_name="firstName" onBlur={this.onFirstNameBlur}/>
-				{this.state.firstNameErr && <div className="errMsg">{this.state.firstNameErr}</div>}
 				<Field lbl_txt="Last Name:" type="text" input_name="lastName" onBlur={this.onLastNameBlur} />
 				<Field lbl_txt="Email:" type="text" input_name="email" onBlur={this.onEmailBlur} />	
 				{this.state.emailErr && <div className="errMsg">{this.state.emailErr}</div>}
 				<Field lbl_txt="Address:" type="text" input_name="address" onBlur={this.onAddressBlur} />
 				<Field lbl_txt="Phone Number:" type="text" input_name="phone" onBlur={this.onPhoneBlur} />
 				{this.state.phoneErr && <div className="errMsg">{this.state.phoneErr}</div>}
-				<Register_btn props={this.state}/>
-			</div>
+				<Register_btn />
+			</form>
 		)
 	}
 }
