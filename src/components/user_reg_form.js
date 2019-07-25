@@ -4,6 +4,8 @@ import Field from './user_reg_form_fields'
 import Register_btn from './user_reg_register_btn'
 import axios from 'axios'
 
+//Component - Main form. Includes other components: Fields and Button
+//Implemented as a class
 class User_reg_form extends React.Component {
 	constructor () {
 		super()
@@ -19,6 +21,8 @@ class User_reg_form extends React.Component {
 		}
 	}
 
+	//Events happening whenever input fields changes. 
+	//Here values are updated in the state
 	onFirstNameBlur = (e) => {
 		this.setState({firstName : e.target.value});
 	}
@@ -39,13 +43,13 @@ class User_reg_form extends React.Component {
 		return this.setState({phoneErr});
 	}
 
+	//Email and Phone validators for the required format
 	validateEmail = email => {
 		const pattern=/^[a-zA-Z0-9]{4}@[a-zA-Z0-9]{4}\.[a-zA-Z]{2}$/;
 		return pattern.test(this.state.email)
 			? ""
 			: "Please enter the email in format xxxx@xxxx.xx";
 	}
-
 	validatePhone = phone => {
 		const pattern = /^\+[0-9]{2}\s[0-9]{3}\s[0-9]{5}$/
 		return pattern.test(phone)
@@ -53,6 +57,7 @@ class User_reg_form extends React.Component {
 			: "Please enter the phone in format +99 999 99999"
 	}
 
+	//Arrow function called whenever submit event occures in the form
 	handleClick = (e) => {
 		e.preventDefault()
 		if (this.state.emailErr || this.state.phoneErr)
@@ -62,6 +67,7 @@ class User_reg_form extends React.Component {
 		this.postMessage()
 	}
 
+	//Request is sent using REST POST method over HTTP to the server
 	postMessage = async () => {
 		try {
 			let res = await axios.post('http://localhost:8500/webappform/insertUser', this.state)
@@ -72,6 +78,7 @@ class User_reg_form extends React.Component {
 		}
 	}
 
+	//Main rendering function
 	render() {
 		return(
 			<form className="user_reg_form" onSubmit={this.handleClick}>
